@@ -4,21 +4,21 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def get_info(tag, term):
-		try:
-			info = tag.find(term)['value'].encode('ascii', 'ignore')
-				except:
-        info = 'NaN'
-    return val
+def get_val(tag, term):
+	try:
+		val = tag.find(term)['value'].encode('ascii', 'ignore')
+	except:
+        	val = 'NaN'
+    	return val
 
 
-base = 'http://www.rpggeek.com/xmlapi2/family?rpg&id={}&stats=1'
+base = 'http://www.rpggeek.com/xmlapi2/family?type=rpg&id={}&stats=1&historial=1'
 with open('ids.txt') as f:
     ids = [line.strip() for line in f.readlines()]
 split = 30
 f = open('rpgs.csv', 'w')
 writer = csv.writer(f)
-writer.writerow(('id', 'type', 'name', 'yearpublished', 'users_rated', 'average_rating',
+writer.writerow(('id', 'type', 'name', 'bggrating', 'users_rated', 'average_rating',
                  'bayes_average_rating', 'total_owners', 'total_traders', 'total_wanters',
                  'total_wishers', 'total_comments', 'total_weights', 'average_weight'))
 for i in range(0, len(ids), split):
@@ -48,4 +48,3 @@ for i in range(0, len(ids), split):
                          numweights, avgweight))
     time.sleep(2)
 f.close()
-
