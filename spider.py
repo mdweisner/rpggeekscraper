@@ -8,12 +8,13 @@ from scrapy.item import Item, Field
 
 class RPG(Item):
     id = Field()
+    name = Field()
     title = Field()
     geek_rate = Field()
     avg_rate = Field()
     num_votes = Field()
 
-class GameSpider(CrawlSpider):
+class RPGSpider(CrawlSpider):
     name = 'rpggeek_spider'
     allowed_domains = ['rpggeek.com']
     start_urls = ['http://www.rpggeek.com/browse/rpg']
@@ -29,10 +30,11 @@ class GameSpider(CrawlSpider):
         rows = soup.select('tr#row_')
         for row in rows:
             g = RPG()
-            a = row.find_all('a', href=re.compile('^/boardgame'))
+            a = row.find_all('a', href=re.compile('^/rpg'))
             for r in a:
                 if r.text:
                     g['id'] = r.get('href').split('/')[2]
+                    g['name'] = r.get('href').split('/')[3]
                     g['title'] = r.text
             geek_rate, avg_rate, num_votes = row.select('td.collection_bggrating')
             g['geek_rate'] = geek_rate.text.strip()
