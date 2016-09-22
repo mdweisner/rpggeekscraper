@@ -8,7 +8,6 @@ from scrapy.item import Item, Field
 
 class RPG(Item):
     id = Field()
-    name = Field()
     title = Field()
     geek_rate = Field()
     avg_rate = Field()
@@ -30,11 +29,10 @@ class RPGSpider(CrawlSpider):
         rows = soup.select('tr#row_')
         for row in rows:
             g = RPG()
-            a = row.find_all('a', href=re.compile('^/rpg'))
+            a = row.find_all('a', href=re.compile('^/rpg/'))
             for r in a:
                 if r.text:
                     g['id'] = r.get('href').split('/')[2]
-                    g['name'] = r.get('href').split('/')[3]
                     g['title'] = r.text
             geek_rate, avg_rate, num_votes = row.select('td.collection_bggrating')
             g['geek_rate'] = geek_rate.text.strip()
