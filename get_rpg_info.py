@@ -12,9 +12,10 @@ def get_val(tag, term):
     	return val
 
 
-# below is my first working base in case the next attempt fails
-# base = 'http://www.rpggeek.com/xmlapi2/family?type=rpg&id={}&stats=1'
-base = 'http://www.rpggeek.com/xmlapi2/thing?id={}&type=rpg&stats=1'
+# below commented is the nonworking base I tried, below it seems to work
+# base = 'http://www.rpggeek.com/xmlapi2/thing?id={}&type=rpg&stats=1'
+base = 'http://www.rpggeek.com/xmlapi2/family?type=rpg&id={}&stats=1'
+
 with open('ids.txt') as f:
     ids = [line.strip() for line in f.readlines()]
 split = 30
