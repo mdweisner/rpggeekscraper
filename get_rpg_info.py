@@ -52,7 +52,7 @@ for i in range(0, len(ids), split):
         numweights = get_val(item.statistics.ratings, 'numweights')
         avgweight = get_val(item.statistics.ratings, 'averageweight')
         # desc = item.description.text.encode('ascii', 'ignore')
-        writer.writerow((gid, gtype, gname, gyear, grpggeekrank,
+        writer.writerow((gid, gtype, gname, grank,
                          usersrated, avg, bayesavg, owners, traders, wanters, wishers, numcomments,
                          numweights, avgweight, grpgfamily, grpgsystem, grpgmechanic, grpghonor, ggeekitem_name))
     time.sleep(2)
