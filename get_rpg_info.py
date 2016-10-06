@@ -12,8 +12,9 @@ def get_val(tag, term):
     	return val
 
 
-# below commented is the nonworking base I tried, below it seems to work
+# below commented is the nonworking base I tried, need to try the commented one below it:
 # base = 'http://www.rpggeek.com/xmlapi2/thing?id={}&type=rpg&stats=1'
+# base = 'http://www.rpggeek.com/xmlapi2/thing?id={}&stats=1'
 base = 'http://www.rpggeek.com/xmlapi2/family?type=rpg&id={}&stats=1'
 
 with open('ids.txt') as f:
@@ -52,9 +53,9 @@ for i in range(0, len(ids), split):
         numweights = get_val(item.statistics.ratings, 'numweights')
         avgweight = get_val(item.statistics.ratings, 'averageweight')
         # desc = item.description.text.encode('ascii', 'ignore')
-        writer.writerow((gid, gtype, gname, grank,
+        writer.writerow((gid, gtype, gname, grank, , grpgfamily, grpgsystem, grpgmechanic, grpghonor, ggeekitem_name,
                          usersrated, avg, bayesavg, owners, traders, wanters, wishers, numcomments,
-                         numweights, avgweight, grpgfamily, grpgsystem, grpgmechanic, grpghonor, ggeekitem_name))
+                         numweights, avgweight))
     time.sleep(2)
 f.close()
 
