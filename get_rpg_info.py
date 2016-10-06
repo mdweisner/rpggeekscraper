@@ -12,15 +12,18 @@ def get_val(tag, term):
     	return val
 
 
-base = 'http://www.rpggeek.com/xmlapi2/family?typ=rpg&id={}&stats=1'
+# below is my first working base in case the next attempt fails
+# base = 'http://www.rpggeek.com/xmlapi2/family?type=rpg&id={}&stats=1'
+base = 'http://www.rpggeek.com/xmlapi2/thing?id={}&type=rpg&stats=1'
 with open('ids.txt') as f:
     ids = [line.strip() for line in f.readlines()]
 split = 30
 f = open('rpgs.csv', 'w')
 writer = csv.writer(f)
-writer.writerow(('id', 'type', 'name', 'yearpublished', 'rpggeekrank', 'users_rated', 'average_rating',
+writer.writerow(('id', 'type', 'name', 'rank', 'users_rated', 'average_rating', 
                  'bayes_average_rating', 'total_owners', 'total_traders', 'total_wanters',
-                 'total_wishers', 'total_comments', 'total_weights', 'average_weight'))
+                 'total_wishers', 'total_comments', 'total_weights', 'average_weight',
+                 'rpgfamily', 'rpgsystem', 'rpgmechanic', 'rpghonor', 'geekitem_name'))
 for i in range(0, len(ids), split):
     url = base.format(','.join(ids[i:i+split]))
     print('Requesting {}'.format(url))
@@ -31,8 +34,12 @@ for i in range(0, len(ids), split):
         gid = item['id']
         gtype = item['type']
         gname = get_val(item, 'name')
-        gyear = get_val(item, 'yearpublished')
-        grpggeekrank = get_val(item, 'rpggeekrank')
+        grpgfamily = get_val(item, 'rpgfamily')
+        grpgsystem = get_val(item, 'rpgsystem')
+        grpgmechanic = get_val(item, 'rpgmechanic')
+        grpghonor = get_val(item, 'rpghonor')
+        ggeekitem_name = get_val(item, 'geekitem_name')
+        grank = get_val(item, 'rank')
         usersrated = get_val(item.statistics.ratings, 'usersrated')
         avg = get_val(item.statistics.ratings, 'average')
         bayesavg = get_val(item.statistics.ratings, 'bayesaverage')
@@ -46,7 +53,7 @@ for i in range(0, len(ids), split):
         # desc = item.description.text.encode('ascii', 'ignore')
         writer.writerow((gid, gtype, gname, gyear, grpggeekrank,
                          usersrated, avg, bayesavg, owners, traders, wanters, wishers, numcomments,
-                         numweights, avgweight))
+                         numweights, avgweight, grpgfamily, grpgsystem, grpgmechanic, grpghonor, ggeekitem_name))
     time.sleep(2)
 f.close()
 
